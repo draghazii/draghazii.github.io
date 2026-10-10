@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /shops/{shop} {
+
+      function signedIn() { return request.auth != null; }
+      function mapPath() { return /databases/$(database)/documents/shops/$(shop)/staffByUid/$(request.auth.uid); }
+      function isStaff() { return signedIn() && exists(mapPath()); }
+      function me() { return get(mapPath()).data; }
+      function isAdmin() {
+        return isStaff() && (me().get('isOwner', false) == true
+                          || me().get('role', '') == 'باشقۇرغۇچى'
+                          || me().get('settings', false) == true);
+      }
+      function bookingOpen() {
+        return get(/databases/$(database)/documents/shops/$(shop)/config/booking).data.get('open', false) == true;
+      }
+
+      match /staffByUid/{uid} {
+        allow get: if signedIn() && request.auth.uid == uid;
+        allow create, update: if signedIn() && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['idcode','role','isOwner','settings'])
+          && request.resource.data.idcode is string
+          && exists(/databases/$(database)/documents/shops/$(shop)/staffProfiles/$(request.resource.data.idcode))
+          && get(/databases/$(database)/documents/shops/$(shop)/staffProfiles/$(request.resource.data.idcode)).data.get('uid', '') == request.auth.uid
+          && (request.resource.data.get('role', '') != 'باشقۇرغۇچى'
+              || get(/databases/$(database)/documents/shops/$(shop)/staffProfiles/$(request.resource.data.idcode)).data.get('role', '') == 'باشقۇرغۇچى')
+          && (request.resource.data.get('isOwner', false) != true
+              || get(/databases/$(database)/documents/shops/$(shop)/staffProfiles/$(request.resource.data.idcode)).data.get('isOwner', false) == true)
+          && (request.resource.data.get('settings', false) != true
+              || get(/databases/$(database)/documents/shops/$(shop)/staffProfiles/$(request.resource.data.idcode)).data.get('rights', {}).get('settings', false) == true);
+        allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      }
+
+      match /staffProfiles/{id} {
+        allow get: if signedIn();
+        allow list: if isAdmin();
+        allow create: if signedIn() && request.resource.data.get('uid', '') == request.auth.uid
+          && request.resource.data.get('role', '') != 'باشقۇرغۇچى'
+          && request.resource.data.get('isOwner', false) != true;
+        allow create: if signedIn() && id == 'G-D0001'
+          && request.resource.data.get('uid', '') == request.auth.uid
+          && request.resource.data.get('isOwner', false) == true
+          && exists(/databases/$(database)/documents/shops/$(shop)/config/owner)
+          && get(/databases/$(database)/documents/shops/$(shop)/config/owner).data.get('uid', '') == request.auth.uid;
+        allow update: if signedIn() && (
+            (isAdmin() && id != 'G-D0001')
+            || (resource.data.get('uid', '') == request.auth.uid
+                && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role','isOwner','perms','rights','blocked','uid']))
+            || (request.resource.data.get('uid', '') == request.auth.uid
+                && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['uid']))
+          );
+        allow delete: if isAdmin() && id != 'G-D0001';
+      }
+
+      match /config/owner {
+        allow get: if signedIn();
+        allow create: if signedIn() && request.resource.data.get('uid', '') == request.auth.uid;
+        allow update, delete: if false;
+      }
+      match /config/booking { allow read: if true; allow write: if isAdmin(); }
+      match /config/payment { allow read: if isStaff(); allow write: if isAdmin(); }
+      match /config/app { allow read: if isStaff(); allow write: if isAdmin(); }
+      match /config/branding { allow read: if isStaff(); allow write: if isAdmin(); }
+      match /config/testCatalog { allow read: if isStaff(); allow write: if isAdmin(); }
+
+      match /counters/staff { allow read, write: if signedIn(); }
+      match /counters/{doc} { allow read, write: if isStaff(); }
+
+      match /medicines/{id} { allow read, write: if isStaff(); }
+      match /debts/{id} { allow read, write: if isStaff(); }
+      match /patients/{id} { allow read, write: if isStaff(); }
+      match /prescriptions/{id} { allow read, write: if isStaff(); }
+      match /queue/{id} { allow read, write: if isStaff(); }
+      match /testOrders/{id} { allow read, write: if isStaff(); }
+      match /sales/{id} { allow read, write: if isStaff(); }
+      match /messages/{id} { allow read, write: if isStaff(); }
+      match /presence/{id} { allow read, write: if isStaff(); }
+
+      match /departments/{id} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /slots/{id} {
+        allow read: if true;
+        allow create: if signedIn() && bookingOpen()
+          && request.resource.data.keys().hasOnly(['date','deptId','slot','createdAt']);
+        allow update, delete: if isStaff();
+      }
+      match /bookingLocks/{id} {
+        allow get: if signedIn();
+        allow create: if signedIn() && bookingOpen()
+          && request.resource.data.keys().hasOnly(['date','slotId','createdAt']);
+        allow update, delete: if isStaff();
+      }
+      match /bookings/{id} {
+        allow read, update, delete: if isStaff();
+        allow create: if signedIn() && bookingOpen()
+          && request.resource.data.keys().hasOnly(['date','deptId','deptName','slot','name','phone','age','gender','addr','note','status','createdAt'])
+          && request.resource.data.status == 'booked'
+          && request.resource.data.name is string && request.resource.data.name.size() <= 60
+          && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+          && request.resource.data.note is string && request.resource.data.note.size() <= 300;
+      }
+
+      match /finance/{doc} { allow read, write: if isAdmin(); }
+      match /financeExpenses/{id} { allow read, write: if isAdmin(); }
+      match /financeReports/{id} { allow read, write: if isAdmin(); }
+    }
+  }
+}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ug" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>نۆۋەت ئېلىش</title>
+<meta name="theme-color" content="#0E6B5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Scheherazade+New:wght@400;700&family=Lateef:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@500;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#0E6B5C;--a:#F2B134;--bg:#F1F6F4;--ink:#12302A;--card:#fff;
+  --fh:'Aref Ruqaa','Scheherazade New','Noto Naskh Arabic',serif;--fb:'Noto Naskh Arabic','Scheherazade New',system-ui,sans-serif;--lh:1.7}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);line-height:var(--lh);min-height:100vh}
+.hero{position:relative;overflow:hidden;color:#fff;text-align:center;padding:34px 18px 70px;
+  background:radial-gradient(circle at 15% 10%,color-mix(in srgb,var(--a) 45%,transparent),transparent 45%),
+             linear-gradient(135deg,var(--p),color-mix(in srgb,var(--p) 55%,#000))}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:#ffffff14}
+.hero:before{width:240px;height:240px;top:-90px;left:-70px}.hero:after{width:180px;height:180px;bottom:-70px;right:-40px}
+.hero>*{position:relative}
+.center{font-family:var(--fh);font-size:clamp(30px,8vw,46px);font-weight:700;margin:6px 0 4px;text-shadow:0 2px 10px #0004}
+.welcome{font-family:var(--fh);font-size:clamp(17px,4.5vw,22px);opacity:.95;margin:0 auto;max-width:520px}
+.clock{display:inline-block;margin-top:18px;padding:10px 22px;border-radius:20px;background:#ffffff22;backdrop-filter:blur(8px);border:1px solid #ffffff44}
+.clock .t{font:700 34px/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:2px;direction:ltr}
+.clock .d{font-size:14px;opacity:.9}
+main{max-width:620px;margin:-44px auto 0;padding:0 14px 30px;position:relative}
+.card{background:var(--card);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 28px #0a2a2412;border:1px solid #0000000a}
+.step{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-family:var(--fh);font-size:20px;font-weight:700}
+.step i{font-style:normal;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--p);color:#fff;font:700 15px var(--fb)}
+.depts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.dept{display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:right;padding:14px;border:2px solid transparent;border-radius:18px;
+  background:color-mix(in srgb,var(--p) 7%,#fff);font:inherit;color:inherit;cursor:pointer;transition:.18s}
+.dept b{font-family:var(--fh);font-size:19px}.dept small{opacity:.7;direction:ltr}
+.dept:active{transform:scale(.97)}
+.dept.sel{border-color:var(--p);background:color-mix(in srgb,var(--p) 16%,#fff);box-shadow:0 4px 14px color-mix(in srgb,var(--p) 30%,transparent)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px;direction:ltr}
+.slot{padding:11px 0;border:0;border-radius:14px;background:color-mix(in srgb,var(--p) 9%,#fff);color:var(--p);font:700 16px ui-monospace,Menlo,monospace;cursor:pointer;transition:.15s}
+.slot:active{transform:scale(.95)}
+.slot.sel{background:var(--p);color:#fff;box-shadow:0 5px 14px color-mix(in srgb,var(--p) 40%,transparent)}
+.slot:disabled{background:#eef0f0;color:#a9b3b0;text-decoration:line-through;cursor:not-allowed}
+.hint{font-size:13px;opacity:.7;margin:8px 0 0}
+.fld{margin-bottom:11px}.fld label{display:block;font-size:14px;margin:0 4px 4px;opacity:.85}
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid #d6e0dd;border-radius:14px;font:inherit;background:#fbfdfc;color:inherit;transition:.15s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--p);box-shadow:0 0 0 4px color-mix(in srgb,var(--p) 18%,transparent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--p),color-mix(in srgb,var(--p) 70%,var(--a)));color:#fff;font:700 19px var(--fh);cursor:pointer;box-shadow:0 8px 20px color-mix(in srgb,var(--p) 35%,transparent)}
+.btn:disabled{opacity:.5}
+.pick{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;margin-bottom:12px;border-radius:14px;background:color-mix(in srgb,var(--a) 22%,#fff);font-weight:600}
+.pick span:last-child{direction:ltr;font:700 18px ui-monospace,monospace}
+.msg{padding:16px;text-align:center;font-family:var(--fh);font-size:19px;background:color-mix(in srgb,var(--a) 25%,#fff)}
+.ok{text-align:center}.ok h3{font-family:var(--fh);font-size:24px;margin:0 0 6px;color:var(--p)}
+.ticket{margin:14px auto;padding:16px;border-radius:20px;border:2px dashed var(--p);background:color-mix(in srgb,var(--p) 6%,#fff)}
+.ticket .big{font:800 46px/1 ui-monospace,monospace;direction:ltr;color:var(--p)}
+footer{max-width:620px;margin:0 auto;padding:0 14px 40px}
+.contact{display:grid;gap:10px}
+.crow{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--card);box-shadow:0 4px 14px #0a2a240d;color:inherit;text-decoration:none}
+.crow .ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--p) 12%,#fff);font-size:19px;flex:none}
+.crow small{display:block;opacity:.65;font-size:12px;line-height:1.3}.crow b{font-weight:600;word-break:break-word}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="center" id="centerName">ساقلىق مەركىزى</div>
+  <p class="welcome" id="welcome">ئەسسالامۇ ئەلەيكۇم، مەركىزىمىزگە خۇش كەپسىز</p>
+  <div class="clock"><div class="t" id="clockT">--:--:--</div><div class="d" id="clockD"></div></div>
+</section>
+
+<main>
+  <div id="closed" class="card msg hidden"></div>
+  <div id="flow" class="hidden">
+    <div class="card"><div class="step"><i>1</i>بۆلۈم تاللاڭ</div><div id="depts" class="depts"></div></div>
+    <div class="card hidden" id="slotCard">
+      <div class="step"><i>2</i>ۋاقىت تاللاڭ</div><div class="slots" id="slots"></div>
+      <p class="hint" id="dateLbl"></p>
+    </div>
+    <div class="card hidden" id="formCard">
+      <div class="step"><i>3</i>ئۇچۇرىڭىز</div>
+      <div class="pick"><span id="pickTxt"></span><span id="pickSlot"></span></div>
+      <div class="fld"><label>ئىسىم-فامىلە *</label><input id="fName" maxlength="60" autocomplete="name"></div>
+      <div class="fld"><label>تېلېفون *</label><input id="fPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel"></div>
+      <div class="row2">
+        <div class="fld"><label>يېشى</label><input id="fAge" type="number" min="0" max="120" inputmode="numeric"></div>
+        <div class="fld"><label>جىنسى</label><select id="fGender"><option value="">—</option><option value="ئەر">ئەر</option><option value="ئايال">ئايال</option></select></div>
+      </div>
+      <div class="fld"><label>ئادرېس</label><input id="fAddr" maxlength="120"></div>
+      <div class="fld"><label>كېسەل ئالامىتى / ئىزاھات</label><textarea id="fNote" rows="2" maxlength="300"></textarea></div>
+      <button class="btn" id="submit">نۆۋەت ئېلىش</button>
+    </div>
+  </div>
+  <div id="done" class="card ok hidden"></div>
+</main>
+
+<footer><div class="contact" id="contact"></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBhVedB0Md_FaRq84CoKQqV6-hGD8SUZxs",
+  authDomain: "ghazi-foundation-f0319.firebaseapp.com",
+  projectId: "ghazi-foundation-f0319",
+  storageBucket: "ghazi-foundation-f0319.firebasestorage.app",
+  messagingSenderId: "127522428349",
+  appId: "1:127522428349:web:deed39176d1e30c7932ed4"
+};
+const SHOP_ID = 'gazi-default';
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const base = db.collection('shops').doc(SHOP_ID);
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const toMin = t => { const [h,m]=t.split(':').map(Number); return h*60+m; };
+const fmt = m => pad(Math.floor(m/60))+':'+pad(m%60);
+const normPhone = p => p.replace(/[^\d]/g,'').replace(/^(00)?86/,'');
+const toLatinDigits = s => s.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const WD = ['يەكشەنبە','دۈشەنبە','سەيشەنبە','چارشەنبە','پەيشەنبە','جۈمە','شەنبە'];
+const FONTS = {
+  ruqaa:{h:"'Aref Ruqaa','Scheherazade New',serif",b:"'Noto Naskh Arabic',serif",lh:1.7},
+  scheherazade:{h:"'Scheherazade New',serif",b:"'Scheherazade New','Noto Naskh Arabic',serif",lh:1.8},
+  lateef:{h:"'Lateef','Scheherazade New',serif",b:"'Lateef','Noto Naskh Arabic',serif",lh:1.6},
+  nastaliq:{h:"'Noto Nastaliq Urdu','Scheherazade New',serif",b:"'Noto Naskh Arabic',serif",lh:2.1},
+  kufi:{h:"'Reem Kufi','Noto Naskh Arabic',sans-serif",b:"'Noto Naskh Arabic',sans-serif",lh:1.7}
+};
+const HEX = /^#[0-9a-fA-F]{6}$/;
+
+let cfg=null, depts=[], dept=null, slot=null, takenSet=new Set(), unsub=null, bookDate='';
+function show(id,on){ $(id).classList.toggle('hidden',!on); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function tick(){
+  const n=new Date();
+  $('clockT').textContent = n.toLocaleTimeString('en-GB',{hour12:false});
+  $('clockD').textContent = WD[n.getDay()]+' · '+ymd(n);
+}
+setInterval(tick,1000); tick();
+
+function linkFor(raw){
+  const v=String(raw||'').trim(); if(!v) return {href:'',tg:false};
+  const t=/^(?:https?:\/\/)?(?:www\.)?(?:t\.me|telegram\.me|telegram\.dog)\/\S+$/i;
+  if(/^tg:\/\//i.test(v)) return {href:v,tg:true};
+  if(t.test(v)) return {href:/^https?:\/\//i.test(v)?v:'https://'+v.replace(/^www\./i,''),tg:true};
+  if(/^@[A-Za-z][A-Za-z0-9_]{3,31}$/.test(v)) return {href:'https://t.me/'+v.slice(1),tg:true};
+  if(/^https?:\/\//i.test(v)) return {href:v,tg:false};
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return {href:'mailto:'+v,tg:false};
+  if(/^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/\S*)?$/i.test(v)) return {href:'https://'+v,tg:false};
+  if(/^\+?[\d\s\-()]{6,}$/.test(v)) return {href:'tel:'+v.replace(/[^\d+]/g,''),tg:false};
+  return {href:'',tg:false};
+}
+const fmtDT = ms => { const d=new Date(ms); return ymd(d)+' '+pad(d.getHours())+':'+pad(d.getMinutes()); };
+function applyBrand(c){
+  const r=document.documentElement.style;
+  if(HEX.test(c.colorPrimary||'')){ r.setProperty('--p',c.colorPrimary); document.querySelector('meta[name=theme-color]').content=c.colorPrimary; }
+  if(HEX.test(c.colorAccent||'')) r.setProperty('--a',c.colorAccent);
+  if(HEX.test(c.colorBg||'')) r.setProperty('--bg',c.colorBg);
+  const f=FONTS[c.font]||FONTS.ruqaa;
+  r.setProperty('--fh',f.h); r.setProperty('--fb',f.b); r.setProperty('--lh',f.lh);
+  $('centerName').textContent = c.centerName || 'ساقلىق مەركىزى';
+  $('welcome').textContent = c.welcome || 'ئەسسالامۇ ئەلەيكۇم، مەركىزىمىزگە خۇش كەپسىز';
+  document.title = (c.centerName||'نۆۋەت ئېلىش')+' — نۆۋەت';
+  const rows=[];
+  if(c.phone){ const L=linkFor(c.phone); rows.push([L.tg?'✈️':'📞',L.tg?'تېلېگرام':'مەركەز ئالاقىسى',c.phone,L.href]); }
+  if(c.complaint){ const L=linkFor(c.complaint); rows.push([L.tg?'✈️':'📣','ئەرز-شىكايەت',c.complaint.trim(),L.href]); }
+  if(c.address) rows.push(['📍','ئادرېس',c.address,'']);
+  $('contact').innerHTML = rows.map(([ic,l,v,h])=>{
+    const inner=`<span class="ic">${ic}</span><span><small>${l}</small><b>${esc(v)}</b></span>`;
+    return h?`<a class="crow" href="${esc(h)}" target="_blank" rel="noopener">${inner}</a>`:`<div class="crow">${inner}</div>`;
+  }).join('');
+}
+
+async function init(){
+  try{ await firebase.auth().signInAnonymously(); }catch(e){ console.warn(e); }
+  base.collection('config').doc('booking').onSnapshot(async doc=>{
+    cfg = doc.exists ? doc.data() : {};
+    applyBrand(cfg);
+    const now = Date.now();
+    let msg='';
+    if(!cfg.open) msg = cfg.closedMessage || 'ھازىر نۆۋەت ئېلىش ئېچىلمىغان. كېيىن قايتا سىناڭ.';
+    else if(cfg.openFromMs && now < cfg.openFromMs) msg='نۆۋەت ئېلىش تېخى باشلانمىدى. باشلىنىش ۋاقتى: '+fmtDT(cfg.openFromMs);
+    else if(cfg.openUntilMs && now > cfg.openUntilMs) msg='نۆۋەت ئېلىش ئاخىرلاشتى. ئاخىرلىشىش ۋاقتى: '+fmtDT(cfg.openUntilMs);
+    if(msg){ $('closed').textContent=msg; show('closed',true); show('flow',false); return; }
+    show('closed',false); if(!$('done').classList.contains('hidden')) return; show('flow',true);
+    const d = new Date(); d.setDate(d.getDate() + (cfg.daysAhead||0));
+    bookDate = ymd(d);
+    $('dateLbl').textContent = 'نۆۋەت كۈنى: '+WD[d.getDay()]+' · '+bookDate;
+    const snap = await base.collection('departments').where('active','==',true).get();
+    depts = snap.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(a.order||0)-(b.order||0));
+    drawDepts();
+  });
+}
+function drawDepts(){
+  $('depts').innerHTML = depts.map(d=>`<button class="dept ${dept&&dept.id===d.id?'sel':''}" data-id="${esc(d.id)}"><b>${esc(d.name)}</b><small>${esc(d.start)} – ${esc(d.end)}</small></button>`).join('') || '<div>بۆلۈم يوق</div>';
+  document.querySelectorAll('.dept').forEach(b=>b.onclick=()=>{ dept=depts.find(x=>x.id===b.dataset.id); slot=null; drawDepts(); listenSlots(); $('slotCard').scrollIntoView({behavior:'smooth',block:'start'}); });
+}
+function listenSlots(){
+  if(unsub) unsub();
+  show('slotCard',true); show('formCard',false);
+  unsub = base.collection('slots').where('date','==',bookDate).where('deptId','==',dept.id)
+    .onSnapshot(s=>{ takenSet = new Set(s.docs.map(x=>x.data().slot)); drawSlots(); });
+}
+function drawSlots(){
+  const step = dept.interval || 10, a = toMin(dept.start), b = toMin(dept.end);
+  const nowD = new Date(), isToday = bookDate===ymd(nowD), nowM = nowD.getHours()*60+nowD.getMinutes();
+  let html='';
+  for(let m=a; m+step<=b; m+=step){
+    const t=fmt(m), off = takenSet.has(t) || (isToday && m<=nowM);
+    html += `<button class="slot ${slot===t?'sel':''}" data-t="${t}" ${off?'disabled':''}>${t}</button>`;
+  }
+  $('slots').innerHTML = html || '<div>ھازىر بوش ۋاقىت يوق</div>';
+  document.querySelectorAll('.slot').forEach(b=>b.onclick=()=>{
+    slot=b.dataset.t; drawSlots(); show('formCard',true);
+    $('pickTxt').textContent=dept.name; $('pickSlot').textContent=slot+' · '+bookDate;
+    $('formCard').scrollIntoView({behavior:'smooth'});
+  });
+}
+async function saveTicketImage(){
+  const t=document.getElementById('ticketCard'), btn=document.getElementById('saveTicketBtn'); if(!t) return;
+  if(btn){ btn.disabled=true; btn.textContent='ساقلىنىۋاتىدۇ...'; }
+  try{
+    const c=await html2canvas(t,{backgroundColor:'#ffffff',scale:2,useCORS:true});
+    const blob=await new Promise(ok=>c.toBlob(ok,'image/png'));
+    const f=new File([blob],'nowet-taloni.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})) await navigator.share({title:'نۆۋەت تالونى',files:[f]});
+    else{ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nowet-taloni.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1500); }
+  }catch(e){ alert('سۈرەت ساقلاش مەغلۇپ بولدى. ئېكران كەسمىسىنى قولدا ئېلىڭ.'); }
+  finally{ if(btn){ btn.disabled=false; btn.textContent='📸 تالوننى سۈرەت قىلىپ ساقلاش'; } }
+}
+$('submit').onclick = async ()=>{
+  const name=$('fName').value.trim(), phone=normPhone(toLatinDigits($('fPhone').value.trim()));
+  if(!dept||!slot) return alert('بۆلۈم ۋە ۋاقىت تاللاڭ');
+  if(name.length<2) return alert('ئىسىمىڭىزنى كىرگۈزۈڭ');
+  if(phone.length<7) return alert('تېلېفون نومۇرىنى توغرا كىرگۈزۈڭ');
+  const deviceKey = 'booked_'+bookDate;
+  if(localStorage.getItem(deviceKey)) return alert('بۇ ئۈسكۈنىدە نۆۋەت ئېلىنغان. ھەر كىشى پەقەت بىر قېتىم ئالالايدۇ.');
+  $('submit').disabled=true;
+  const slotId = bookDate+'_'+dept.id+'_'+slot.replace(':','');
+  const slotRef = base.collection('slots').doc(slotId);
+  const bookRef = base.collection('bookings').doc(slotId);
+  const lockRef = base.collection('bookingLocks').doc(bookDate+'_'+phone);
+  const ts = firebase.firestore.FieldValue.serverTimestamp();
+  try{
+    await db.runTransaction(async tx=>{
+      const [s,l] = await Promise.all([tx.get(slotRef), tx.get(lockRef)]);
+      if(s.exists) throw new Error('TAKEN');
+      if(l.exists) throw new Error('ONCE');
+      tx.set(slotRef,{date:bookDate,deptId:dept.id,slot,createdAt:ts});
+      tx.set(lockRef,{date:bookDate,slotId,createdAt:ts});
+      tx.set(bookRef,{date:bookDate,deptId:dept.id,deptName:dept.name,slot,name,phone,
+        age:+$('fAge').value||0,gender:$('fGender').value,addr:$('fAddr').value.trim(),note:$('fNote').value.trim(),
+        status:'booked',createdAt:ts});
+    });
+    localStorage.setItem(deviceKey, slotId);
+    show('flow',false);
+    $('done').innerHTML = `<div id="ticketCard"><h3>نۆۋەت مۇۋەپپەقىيەتلىك ئېلىندى ✓</h3>
+      <div class="ticket"><div>${esc(dept.name)}</div><div class="big">${esc(slot)}</div><div>${esc(bookDate)}</div></div>
+      <p>${esc(name)}، بەلگىلەنگەن ۋاقىتتىن 5-10 مىنۇت بۇرۇن كېلىڭ.</p></div>
+      <button class="btn" id="saveTicketBtn" onclick="saveTicketImage()">📸 تالوننى سۈرەت قىلىپ ساقلاش</button>`;
+    show('done',true); window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+    $('submit').disabled=false;
+    if(e.message==='TAKEN') alert('بۇ ۋاقىت ئەمدىلا ئېلىنىپ كەتتى. باشقا ۋاقىت تاللاڭ.');
+    else if(e.message==='ONCE') alert('بۇ تېلېفون بىلەن نۆۋەت ئېلىنغان. پەقەت بىر قېتىم ئالغىلى بولىدۇ.');
+    else { console.error(e); alert('خاتالىق كۆرۈلدى، قايتا سىناڭ.'); }
+  }
+};
+init();
+</script>
+</body>
+</html>
