@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "Ghazi.healthcare.center",
+        "sha256_cert_fingerprints": ["08:24:29:97:DD:21:3F:C4:24:88:12:B1:4E:88:EB:95:75:31:03:95:9F:B4:06:48:FA:E7:7A:65:43:AE:95:BE"]
+      }
+    }]
