@@ -20,8 +20,8 @@
     "path": "./android.keystore",
     "alias": "ghazi_key"
   },
-  "appVersionName": "1.0.1",
-  "appVersionCode": 10,
+  "appVersionName": "1.0.3",
+  "appVersionCode": 11,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://draghazii.github.io/manifest.json",
