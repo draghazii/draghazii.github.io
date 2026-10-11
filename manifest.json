@@ -1,4 +1,5 @@
 {
+  "id": "./",
   "name": "غازىلار ساقلىق مەركىزى",
   "short_name": "غازىلار",
   "lang": "ug",
@@ -6,9 +7,8 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#ffffff",
   "theme_color": "#0E6B5C",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "icons/icon-192.png",

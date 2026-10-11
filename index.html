@@ -5979,6 +5979,18 @@ function retryScanner(){ const m=scannerMode; closeScannerUI(); setTimeout(()=>o
 /* PWA service worker */
 if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(()=>{})); }
 
+
+/* Booking hero image and patient date-range controls */
+(function(){
+ const ref=()=>db.collection('shops').doc(SHOP_ID).collection('config').doc('booking');let c={};
+ const esc=v=>String(v||'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+ const css=document.createElement('style');css.textContent='.bkHero{margin:12px 0;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--surface)}.bkHeroPrev{height:130px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));background-size:cover;background-position:center;margin:8px 0}.bkHero label{display:block;margin-top:8px;font-weight:700;font-size:14px}.bkHero input{width:100%;margin-top:4px}.bkHero .row{display:flex;gap:8px;align-items:center;margin-top:10px}.bkHero .row input{width:20px;height:20px;margin:0}';document.head.appendChild(css);
+ function put(){const pane=document.getElementById('bkPane');if(!pane||document.getElementById('bkHero'))return;const d=document.createElement('div');d.id='bkHero';d.className='bkHero';d.innerHTML='<div class="section-title" style="margin:0">🖼 نۆۋەت بېتى ئۈستىدىكى ئارقا كۆرۈنۈش</div><div class="bkHeroPrev" id="bkHP"></div><label>رەسىم URL</label><input class="field-input" id="bkHU" dir="ltr" value="'+esc(c.heroImage)+'" placeholder="https://.../flag.jpg"><div class="row"><input id="bkHW" type="checkbox" '+(c.heroWave!==false?'checked':'')+'><label for="bkHW" style="margin:0">لەپىلدەپ تۇرغاندەك ھەرىكەت</label></div><label>قاراڭغۇلۇق (0.15–0.85)</label><input class="field-input" id="bkHS" type="number" min="0.15" max="0.85" step="0.05" value="'+(c.heroShade==null?0.46:c.heroShade)+'"><label>بىمار تاللايدىغان ئالدىدىكى كۈنلەر (1–31)</label><input class="field-input" id="bkHD" type="number" min="1" max="31" value="'+(c.patientDaysAhead||14)+'"><div class="bk-note">رەسىم پەقەت مەركەز ئىسمى ۋە سائەت بار يۇقىرى قىسمىغا چىقىدۇ؛ جۈمە كۈنىمۇ تاللىنىدۇ.</div><button class="btn btn-primary" onclick="saveBkHero()">ساقلاش</button>';pane.insertBefore(d,pane.firstChild);prev();}
+ function prev(){const e=document.getElementById('bkHP'),u=document.getElementById('bkHU');if(e&&u)e.style.backgroundImage=u.value?'url("'+u.value.replace(/"/g,'%22')+'")':'';}
+ window.saveBkHero=function(){const u=document.getElementById('bkHU').value.trim(),sh=Math.max(.15,Math.min(.85,+document.getElementById('bkHS').value||.46)),dy=Math.max(1,Math.min(31,+document.getElementById('bkHD').value||14));ref().set({heroImage:u,heroWave:document.getElementById('bkHW').checked,heroShade:sh,patientDaysAhead:dy},{merge:true}).then(()=>toast('ساقلاندى ✓')).catch(dbError);};
+ const watch=()=>{if(db)ref().onSnapshot(d=>{c=d.exists?d.data():{};const p=document.getElementById('bkPane');if(p&&p.innerHTML.indexOf('نۆۋەت ئېلىش قائىدىسى')>-1)put();});};
+ const old=window.bkSub;window.bkSub=function(x){const r=old.apply(this,arguments);setTimeout(put,80);return r;};setTimeout(watch,1200);
+})();
 </script>
 </body>
 </html>

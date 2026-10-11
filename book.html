@@ -270,5 +270,41 @@ $('submit').onclick = async ()=>{
 };
 init();
 </script>
-</body>
+<script>
+/* Booking page upgrade: date selection, confirmation, hero image and ticket capture */
+(function(){
+ const W=['يەكشەنبە','دۈشەنبە','سەيشەنبە','چارشەنبە','پەيشەنبە','جۈمە','شەنبە'];
+ const pd=n=>String(n).padStart(2,'0'), yd=d=>d.getFullYear()+'-'+pd(d.getMonth()+1)+'-'+pd(d.getDate());
+ const escx=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ let days=14;
+ const style=document.createElement('style');style.textContent=`
+ .dates{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;direction:rtl}.date{padding:10px 4px;border:1.5px solid color-mix(in srgb,var(--p) 38%,#fff);border-radius:14px;background:#fff;color:var(--p);font:inherit;cursor:pointer}.date b{display:block;font-size:14px}.date small{font-size:11px;opacity:.78;direction:ltr}.date.sel{background:var(--p);color:#fff}.confirm{border:2px solid color-mix(in srgb,var(--p) 35%,#fff);background:color-mix(in srgb,var(--p) 5%,#fff)}.confirm .line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #d7e2de;font-size:16px}.confirm .line:last-child{border:0}.confirm .line b{direction:ltr;color:var(--p)}.hero.has-img{background-image:linear-gradient(rgb(0 0 0 / var(--heroShade,.46)),rgb(0 0 0 / var(--heroShade,.46))),var(--heroImg)!important;background-size:cover!important;background-position:center!important}.hero.flag-wave:after{content:"";position:absolute;inset:-14% -10%;z-index:-1;background:var(--heroImg) center/cover no-repeat;opacity:.3;filter:blur(2px);animation:flagWave 4.5s ease-in-out infinite alternate}@keyframes flagWave{0%{transform:skewY(-2deg) scale(1.05)}100%{transform:skewY(2deg) scale(1.09)}}.ticket .deptbig{font:700 26px var(--fh);color:var(--ink)}.ticket .datebig{font-size:17px;font-weight:700;margin-top:5px}.ticket .person{font-size:15px;opacity:.75;margin-top:9px}.btn.alt{background:#ecf2f0;color:var(--p);box-shadow:none;border:1px solid #cbdad5}`;document.head.appendChild(style);
+ const origBrand=window.applyBrand;
+ window.applyBrand=function(c){origBrand(c);days=Math.max(1,Math.min(31,+c.patientDaysAhead||14));const h=document.querySelector('.hero');h.classList.remove('has-img','flag-wave');if(c.heroImage){document.documentElement.style.setProperty('--heroImg','url("'+String(c.heroImage).replace(/"/g,'%22')+'")');document.documentElement.style.setProperty('--heroShade',String(c.heroShade==null?.46:c.heroShade));h.classList.add('has-img');if(c.heroWave!==false)h.classList.add('flag-wave');}};
+ function add(){
+  if(document.getElementById('dateCard'))return;
+  const sc=document.getElementById('slotCard');const dc=document.createElement('div');dc.className='card hidden';dc.id='dateCard';dc.innerHTML='<div class="step"><i>2</i>كۈن تاللاڭ</div><div id="dates" class="dates"></div><p class="hint">جۈمە كۈنىمۇ تاللىنىدۇ.</p>';sc.parentNode.insertBefore(dc,sc);
+  const fc=document.getElementById('formCard');const cc=document.createElement('div');cc.className='card confirm hidden';cc.id='confirmCard';cc.innerHTML='<div class="step"><i>4</i>نۆۋەتنى جەزملەش</div><div id="confirmInfo"></div><p class="hint">جەزملەشنى باسقاندىن كېيىنلا ۋاقتىڭىز ساقلىنىدۇ.</p><button class="btn" id="realSubmit">✅ نومۇرنى جەزملەش</button><button class="btn alt" id="backForm">ئۇچۇرنى ئۆزگەرتىش</button>';fc.parentNode.insertBefore(cc,fc.nextSibling);
+  document.getElementById('backForm').onclick=()=>{show('confirmCard',false);show('formCard',true)};
+  document.getElementById('realSubmit').onclick=()=>document.getElementById('submit').click();
+  const oldDraw=window.drawDepts;
+  window.drawDepts=function(){oldDraw();document.querySelectorAll('.dept').forEach(x=>x.onclick=()=>{dept=depts.find(q=>q.id===x.dataset.id);slot=null;oldDraw();drawDates();show('dateCard',true);show('slotCard',false);show('formCard',false);show('confirmCard',false);document.getElementById('dateCard').scrollIntoView({behavior:'smooth'})});};
+  const oldListen=window.listenSlots;
+  window.listenSlots=function(){oldListen();};
+  window.drawDates=function(){const d0=new Date();document.getElementById('dates').innerHTML=Array.from({length:days},(_,i)=>{const d=new Date(d0);d.setDate(d0.getDate()+i);const v=yd(d);return '<button class="date '+(bookDate===v?'sel':'')+'" data-d="'+v+'"><b>'+(i===0?'بۈگۈن':i===1?'ئەتە':W[d.getDay()])+'</b><small>'+pd(d.getDate())+'-'+pd(d.getMonth()+1)+'</small></button>'}).join('');document.querySelectorAll('.date').forEach(x=>x.onclick=()=>{bookDate=x.dataset.d;slot=null;drawDates();oldListen();show('slotCard',true);show('formCard',false);show('confirmCard',false);document.getElementById('slotCard').scrollIntoView({behavior:'smooth'})});};
+  const oldSlots=window.drawSlots;
+  window.drawSlots=function(){oldSlots();document.querySelectorAll('.slot').forEach(x=>x.onclick=()=>{slot=x.dataset.t;oldSlots();show('formCard',true);show('confirmCard',false);document.getElementById('pickTxt').textContent=dept.name;document.getElementById('pickSlot').textContent=slot+' · '+bookDate;document.getElementById('formCard').scrollIntoView({behavior:'smooth'})});};
+  const sb=document.getElementById('submit');const original=sb.onclick;sb.id='hiddenOriginalSubmit';sb.style.display='none';
+  const next=document.createElement('button');next.className='btn';next.id='reviewBooking';next.textContent='✅ جەزملەش بېتىگە ئۆتۈش';sb.parentNode.insertBefore(next,sb);
+  next.onclick=()=>{const name=document.getElementById('fName').value.trim(),phone=document.getElementById('fPhone').value.trim();if(!dept||!slot||name.length<2||phone.length<7){alert('بۆلۈم، كۈن، ۋاقىت، ئىسىم ۋە تېلېفوننى تولدۇرۇڭ');return;}document.getElementById('confirmInfo').innerHTML='<div class="line"><span>بۆلۈم</span><b style="direction:rtl">'+escx(dept.name)+'</b></div><div class="line"><span>چېسلا</span><b>'+escx(bookDate)+'</b></div><div class="line"><span>ۋاقىت</span><b>'+escx(slot)+'</b></div><div class="line"><span>بىمار</span><b style="direction:rtl">'+escx(name)+'</b></div>';show('formCard',false);show('confirmCard',true);document.getElementById('confirmCard').scrollIntoView({behavior:'smooth'});};
+  document.getElementById('realSubmit').onclick=async()=>{
+    // restore, then invoke the original handler
+    sb.style.display='none'; await original();
+    const d=document.getElementById('done');if(!d.classList.contains('hidden')){const orig=d.innerHTML;d.innerHTML='<div id="ticketCard"><h3>نۆۋەت ئېلىش مۇۋەپپەقىيەتلىك بولدى ✓</h3><div class="ticket"><div class="deptbig">'+escx(dept.name)+'</div><div class="big">'+escx(slot)+'</div><div class="datebig">'+escx(bookDate)+'</div><div class="person">'+escx(document.getElementById('fName').value||'')+'</div></div></div><button class="btn" onclick="saveTicketPng()">📸 ئېكران كەسمە يۈزىنى ساقلاش</button>';}
+  };
+ }
+ window.saveTicketPng=async function(){const t=document.getElementById('ticketCard');if(!t)return;try{const c=await html2canvas(t,{backgroundColor:'#fff',scale:2,useCORS:true});const blob=await new Promise(r=>c.toBlob(r,'image/png'));const f=new File([blob],'nowet-taloni.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:'نۆۋەت تالونى'});else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nowet-taloni.png';a.click();}}catch(e){alert('ساقلاش مەغلۇپ بولدى')}};
+ add();
+})();
+</script></body>
 </html>
