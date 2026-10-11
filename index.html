@@ -350,7 +350,7 @@ h1,h2,h3,.brand,.tabbar-label{font-family:var(--font-head,'Noto Kufi Arabic'),'N
   <div class="pin-overlay" id="pinOverlay">
     <div style="font-size:34px;">🔒</div>
     <div class="pin-title" id="pinTitle">قۇلۇپنى ئېچىش ئۈچۈن PIN كىرگۈزۈڭ</div>
-    <div class="pin-sub">مۇقەررەر PIN: 1234 (تەڭشەكتىن ئۆزگەرتەلەيسىز)</div>
+    <div class="pin-sub">تۇنجى PIN: 1234 (تەڭشەكتىن ئۆزگەرتەلەيسىز)</div>
     <div class="pin-dots" id="pinDots">
       <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
     </div>
@@ -593,7 +593,7 @@ h1,h2,h3,.brand,.tabbar-label{font-family:var(--font-head,'Noto Kufi Arabic'),'N
       </div>
       <div class="section-title">ئەڭ كۆپ سېتىلغان دورىلار</div>
       <div class="card" id="topMeds"></div>
-      <button class="btn btn-outline" onclick="switchTab('restock')">📦 يېڭىدىن سېتىۋېلىش تىزىملىكى</button>
+      <button class="btn btn-outline" onclick="switchTab('restock')">📦 يېڭىدىن سېتىۋېلىش پىلانى تىزىملىكى</button>
       <button class="btn btn-outline" onclick="switchTab('suppliers')">🚚 يەتكۈزگۈچىلەر</button>
       <button class="btn btn-outline" onclick="switchTab('staff')">👥 خىزمەتچىلەر</button>
     </div>
@@ -936,7 +936,7 @@ h1,h2,h3,.brand,.tabbar-label{font-family:var(--font-head,'Noto Kufi Arabic'),'N
       </div>
 
       <div class="owner-panel" id="ownerPanel" style="display:none;">
-        <div class="modal-title" style="font-size:16px;">👑 باش دوختۇر تەڭشىكى (باشقىلارغا كۆرۈنمەيدۇ)</div>
+        <div class="modal-title" style="font-size:16px;">👑 باش دوختۇر تەڭشىكى </div>
         <div class="field-label">ئەزالار ۋە سالاھىيەتلىرى</div>
         <div id="ownStaff"></div>
         <div class="field-label">🧪 تەكشۈرۈش تۈرلىرى</div>
@@ -952,7 +952,7 @@ h1,h2,h3,.brand,.tabbar-label{font-family:var(--font-head,'Noto Kufi Arabic'),'N
         <button class="btn btn-outline" onclick="resetOwnBanner()">ئەسلى سۈرەتكە قايتۇرۇش</button>
         <div class="field-label">📿 ئايلىنىپ چىقىدىغان ئايەت ۋە دۇئالار (ھەر قۇرغا بىرى)</div>
         <textarea class="field-input" id="ownDuas" rows="9" style="direction:rtl;font-size:16px;line-height:1.9;"></textarea>
-        <div class="field-label">سۈرئەت (پىكسېل/سېكۇنت — كىچىك سان = ئاستا)</div>
+        <div class="field-label">سۈرئەت (پىكسېل/سېكۇنت — كىچىك سان = ئاستا)</div
         <input class="field-input" id="ownDuaSpeed" type="number" min="8" max="200" placeholder="38">
         <button class="btn btn-primary" onclick="saveOwnDuas()">دۇئالارنى ساقلاش</button>
         <button class="btn btn-outline" onclick="resetOwnDuas()">ئەسلى دۇئالارغا قايتۇرۇش</button>
@@ -1830,7 +1830,7 @@ const FONTS = [
   {key:'sans',    label:'ئاددىي (Sans)',   body:"'Noto Sans Arabic'",  head:"'Noto Kufi Arabic'"},
   {key:'kufi',    label:'كۇفى',             body:"'Noto Kufi Arabic'",  head:"'Noto Kufi Arabic'"},
   {key:'naskh',   label:'نەسخى',            body:"'Noto Naskh Arabic'", head:"'Noto Naskh Arabic'"},
-  {key:'sheher',  label:'مۇسخەپ ئۇسلۇبى',   body:"'Scheherazade New'",  head:"'Scheherazade New'"},
+  {key:'sheher',  label:'ھۆسىنخەت ئۇسلۇبى',   body:"'Scheherazade New'",  head:"'Scheherazade New'"},
   {key:'lateef',  label:'يۇمشاق خەت',       body:"'Lateef'",            head:"'Lateef'"}
 ];
 function setDarkMode(on){
@@ -2624,7 +2624,7 @@ function copyReceiptText(){
 }
 function sendReceiptWhatsapp(target){
   const text = window._lastReceiptText;
-  if(!text){ toast('ئۇچۇت مەلۇماتى تېپىلمىدى'); return; }
+  if(!text){ toast('ئۇچۇر مەلۇماتى تېپىلمىدى'); return; }
   let phone = '';
   if(target==='patient'){
     const inp = document.getElementById('rcPhone');
@@ -2651,7 +2651,7 @@ function sendReceiptWhatsapp(target){
 }
 function sendReceiptTelegram(){
   const text = window._lastReceiptText;
-  if(!text){ toast('ئۇچۇت مەلۇماتى تېپىلمىدى'); return; }
+  if(!text){ toast('ئۇچۇر مەلۇماتى تېپىلمىدى'); return; }
   const encoded = encodeURIComponent(text);
   const pathNoScheme = 't.me/share/url?url=&text='+encoded;
   openViaAndroidIntent('org.telegram.messenger', pathNoScheme, 'https://'+pathNoScheme);
@@ -2681,8 +2681,8 @@ function renderInventory(){
       <div class="med-icon">💊</div>
       <div class="med-main">
         <div class="med-name">${m.name}</div>
-        <div class="med-meta">${m.cat} · ئامباردا ${m.stock} · موھلىتى ${dleft<=90? `<span class="expiry-warn">${dleft} كۈن قالدى</span>` : m.expiry}</div>
-        <span class="stock-pill ${low?'stock-low':'stock-ok'}">${low?'ئامبار ئاز':'ئامبار يېتەرلىك'}</span>
+        <div class="med-meta">${m.cat} · ئامباردا ${m.stock} · مۆھلىتى ${dleft<=90? `<span class="expiry-warn">${dleft} كۈن قالدى</span>` : m.expiry}</div>
+        <span class="stock-pill ${low?'stock-low':'stock-ok'}">${low?'ئامباردا ئاز':'ئامباردا يېتەرلىك'}</span>
         ${m.promo?`<span class="stock-pill promo-pill">پائالىيەت ${fmt(m.promoPrice)}</span>`:''}
         ${suggest?`<button class="btn btn-ghost" style="margin-top:8px;" onclick="event.stopPropagation();quickSetPromo(${m.id})">پائالىيەت باھا بەلگىلە</button>`:''}
       </div>
@@ -5340,8 +5340,8 @@ function retryScanner(){ const m=scannerMode; closeScannerUI(); setTimeout(()=>o
     const p=val('bkP')||'#0E6B5C',a=val('bkA')||'#F2B134',bg=val('bkBg')||'#F1F6F4',f=FS[B.draftFont||'ruqaa']||FS.ruqaa;
     box.style.background=bg;box.style.fontFamily=f.b;
     const hero=document.getElementById('bkPrevHero');hero.style.background='linear-gradient(135deg,'+p+',color-mix(in srgb,'+p+' 55%,#000))';hero.style.fontFamily=f.h;
-    document.getElementById('bkPvName').textContent=C().centerName||'ساقلىق مەركىزى';
-    document.getElementById('bkPvWel').textContent=C().welcome||'ئەسسالامۇ ئەلەيكۇم، مەركىزىمىزگە خۇش كەپسىز';
+    document.getElementById('bkPvName').textContent=C().centerName||' غازىلار ساقلىق مەركىزى نومۇر ئېلىش سۇپىسى ';
+    document.getElementById('bkPvWel').textContent=C().welcome||'السلام عليكم ورحمة الله وبركاته ، ھۆرمەتلىك قېرىندىشىم-ھەمشىرەم، مەركىزىمىزگە خۇش كەپسىز';
     ['bkPvS1','bkPvS3'].forEach(id=>{const e=document.getElementById(id);e.style.color=p;e.style.borderColor=p;});
     document.getElementById('bkPvS2').style.background=p;
     const go=document.getElementById('bkPvGo');go.style.background=p;go.style.fontFamily=f.h;
