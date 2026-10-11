@@ -1,0 +1,41 @@
+{
+  "packageId": "Ghazi.healthcare.center",
+  "host": "draghazii.github.io",
+  "name": "غازىلار ساقلىق مەركىزى",
+  "launcherName": "غازىلار",
+  "display": "standalone",
+  "themeColor": "#0f766e",
+  "themeColorDark": "#0f766e",
+  "navigationColor": "#0f766e",
+  "navigationColorDark": "#0f766e",
+  "navigationDividerColor": "#0f766e",
+  "navigationDividerColorDark": "#0f766e",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://draghazii.github.io/icon-512.png",
+  "maskableIconUrl": "https://draghazii.github.io/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "ghazi_key"
+  },
+  "appVersionName": "1.0.1",
+  "appVersionCode": 10,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://draghazii.github.io/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://draghazii.github.io/",
+  "minSdkVersion": 21,
+  "orientation": "default",
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}
