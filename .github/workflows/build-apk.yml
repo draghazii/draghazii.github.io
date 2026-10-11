@@ -47,11 +47,14 @@ jobs:
             | grep "SHA256:"
       - name: Build signed APK
         env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
+          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          npx bubblewrap updateConfig --jdkPath="${JAVA_HOME_11_X64}" --androidSdkPath="${ANDROID_HOME}"
-          yes | npx bubblewrap build --skipPwaValidation
-
+          bubblewrap build \
+            --manifest=./twa-manifest.json \
+            --signingKeyPath=./android.keystore \
+            --signingKeyAlias="${{ secrets.KEY_ALIAS }}" \
+            --skipPwaValidation
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
