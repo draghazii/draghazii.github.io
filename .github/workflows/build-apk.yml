@@ -45,7 +45,7 @@ jobs:
             -alias "${{ secrets.KEY_ALIAS }}" \
             -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
             | grep "SHA256:"
-- name: Build signed APK
+      - name: Build signed APK
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
         run: |
